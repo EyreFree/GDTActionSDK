@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'GDTActionSDK_Example' do
+  pod 'GDTActionSDK', :path => '../'
+
+  target 'GDTActionSDK_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end

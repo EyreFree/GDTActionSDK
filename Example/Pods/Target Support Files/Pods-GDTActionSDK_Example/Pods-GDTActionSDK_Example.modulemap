@@ -1,0 +1,6 @@
+framework module Pods_GDTActionSDK_Example {
+  umbrella header "Pods-GDTActionSDK_Example-umbrella.h"
+
+  export *
+  module * { export * }
+}

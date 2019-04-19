@@ -1,0 +1,612 @@
+<!DOCTYPE html><html lang="zh-CN"><head><title>广点通DMP行为数据上报SDK接入文档</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><style>html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre, a,
+abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup,
+tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-weight: inherit;
+    font-style: inherit;
+    font-family: inherit;
+    font-size: 100%;
+    vertical-align: baseline
+}
+
+body {
+    line-height: 1;
+    color: #000;
+    background: #fff
+}
+
+ol, ul {
+    list-style: none
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 0;
+    vertical-align: middle
+}
+
+caption, th, td {
+    text-align: left;
+    font-weight: normal;
+    vertical-align: middle
+}
+
+a {
+    text-decoration: inherit;
+    color:#1690e5
+}
+
+a:hover {
+    text-decoration: underline
+}
+
+a img {
+    border: none
+}
+
+* {
+    box-sizing: border-box
+}
+
+.markdown-body {
+    position: relative;
+    margin: 0 auto;
+    max-width: 820px;
+    padding: 18px 20px 18px 20px;
+    word-wrap: break-word;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5em;
+    color: #333;
+}
+
+@media screen and (max-width: 479px) {
+    .markdown-body {
+        padding-right: 0
+    }
+}
+
+/* 2k屏幕以下，字体小一些，不然比较难看 */
+@media screen and (max-width: 1600px) {
+    .markdown-body {
+        padding-right: 0;
+        font-size: 12px;
+    }
+}
+
+.markdown-body > *:first-child {
+    margin-top: 0 !important
+}
+
+.markdown-body strong {
+    font-weight: bold
+}
+
+.markdown-body hr {
+    border-top: 1px solid #cacaca;
+    border-width: 1px 0 0 0
+}
+
+.markdown-body em {
+    font-style: italic
+}
+
+.markdown-body img {
+    max-width: 100%
+}
+
+.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4, .markdown-body h5, .markdown-body h6 {
+    position: relative;
+    margin-top: 1em;
+    margin-bottom: 16px;
+    font-weight: bold;
+    line-height: 1.4;
+}
+
+.markdown-body h1 a, .markdown-body h2 a, .markdown-body h3 a, .markdown-body h4 a, .markdown-body h5 a, .markdown-body h6 a {
+    display: none
+}
+
+.markdown-body h1:hover a, .markdown-body h2:hover a, .markdown-body h3:hover a, .markdown-body h4:hover a, .markdown-body h5:hover a, .markdown-body h6:hover a {
+    display: inline;
+    color: #000;
+    font-size: 85%
+}
+
+.markdown-body h1, .markdown-body h2 {
+    /*border-bottom: 1px solid #eee*/
+}
+
+.markdown-body h1 {
+    font-size: 2.0em;
+    line-height: 1.2;
+    padding-bottom: .3em
+}
+
+.markdown-body h2 {
+    padding-bottom: .3em;
+    font-size: 1.6em;
+    line-height: 1.225;
+    /*border-bottom: 1px dashed #dedede*/
+}
+
+.markdown-body blockquote {
+    padding: 0 15px;
+    color: #777;
+    border-left: 4px solid #ddd;
+    margin: 0;
+}
+
+.markdown-body blockquote > :last-child {
+    margin-bottom: 0
+}
+
+.markdown-body blockquote > :first-child {
+    margin-top: 0
+}
+
+.markdown-body p, .markdown-body blockquote, .markdown-body ul, .markdown-body ol, .markdown-body dl, .markdown-body table, .markdown-body pre {
+    margin-top: 0;
+    margin-bottom: 16px
+}
+
+.markdown-body ul, .markdown-body ol {
+    padding-left: 1.4em;
+    list-style: initial
+}
+
+.markdown-body ol {
+    list-style-type: decimal
+}
+
+.markdown-body ol ol, .markdown-body ul ol {
+    list-style-type: lower-roman
+}
+
+.markdown-body ul ul ol, .markdown-body ul ol ol, .markdown-body ol ul ol, .markdown-body ol ol ol {
+    list-style-type: lower-alpha
+}
+
+.markdown-body pre {
+    padding: 10px;
+    overflow: auto;
+    background-color: #f7f7f9;
+    border-radius: 3px;
+    word-break: break-all;
+    word-wrap: break-word;
+    font: 16px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+
+.markdown-body pre code {
+    background-color: transparent;
+    color: inherit;
+    line-height: 16px;
+    display: block;
+    font-size: 14px
+}
+
+@media screen and (max-width: 1600px) {
+    .markdown-body pre code {
+        font-size: 12px
+    }
+}
+
+.markdown-body pre code:before, .markdown-body pre code:after, .markdown-body pre tt:before, .markdown-body pre tt:after {
+    letter-spacing: 0;
+    content: ""
+}
+
+.markdown-body code,
+.markdown-body tt {
+    margin: 0 3px;
+    vertical-align: top;
+    background-color: #F0F8FF;
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-size: 14px;
+    color: #1690e5; /*广点通蓝色 #1690e5  4183c4*/
+}
+
+.markdown-body p code {
+    border: 1px solid #e1e1e8;
+}
+
+@media screen and (max-width: 1600px) {
+    .markdown-body code, .markdown-body tt {
+        font-size: 12px;
+    }
+}
+
+.markdown-body code:before, .markdown-body code:after, .markdown-body tt:before, .markdown-body tt:after {
+    content: "\00a0";
+    vertical-align: text-top
+}
+
+.markdown-body table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    max-width: 100%;
+    display: block;
+    background-color: transparent;
+}
+
+.markdown-body table th, .markdown-body table td {
+    border: 1px solid #ddd;
+    padding: 4px 10px
+}
+
+.markdown-body table th {
+    font-weight: bold;
+    background: #f3f3f3
+}
+
+.markdown-body table tr:nth-child(2n) {
+    background-color: #f8f8f8
+}
+
+.markdown-body table tbody {
+    background: #fff
+}
+
+.markdown-body .task-list-item {
+    padding: 0;
+}
+
+.markdown-body .task-list-item li {
+    list-style-type: none
+}
+
+.hljs {
+    display: block;
+    background: white;
+    padding: 0.5em;
+    color: #333333;
+    overflow-x: auto;
+}
+
+.hljs::-webkit-scrollbar {
+    height: 6px;
+}
+
+.hljs-comment,
+.hljs-meta {
+    color: #969896;
+}
+
+.hljs-string,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-strong,
+.hljs-emphasis,
+.hljs-quote {
+    color: #df5000;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-type {
+    color: #a71d5d;
+}
+
+.hljs-literal,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-attribute {
+    color: #0086b3;
+}
+
+.hljs-section,
+.hljs-name {
+    color: #63a35c;
+}
+
+.hljs-tag {
+    color: #333333;
+}
+
+.hljs-title,
+.hljs-attr,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-selector-attr,
+.hljs-selector-pseudo {
+    color: #795da3;
+}
+
+.hljs-addition {
+    color: #55a532;
+    background-color: #eaffea;
+}
+
+.hljs-deletion {
+    color: #bd2c00;
+    background-color: #ffecec;
+}
+
+.hljs-link {
+    text-decoration: underline;
+}
+
+* {
+    box-sizing: border-box
+}
+
+body, html {
+    height: 100%;
+    font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    letter-spacing: .2px;
+}
+
+.container {
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 1124px;
+    margin: 0 auto;
+}
+
+@media screen and (min-width: 480px) and (max-width: 1170px) {
+    .container {
+        width: auto
+    }
+}
+
+@media screen and (max-width: 479px) {
+    .container {
+        width: auto
+    }
+}
+
+.container:before {
+    display: table;
+    content: " "
+}
+
+.container:after {
+    display: table;
+    content: " ";
+    clear: both
+}
+
+.markdown-body {
+    overflow: auto
+}
+
+/* 目录 */
+.page-toc {
+    width: 200px;
+    float: left;
+    background: #fff;
+    padding: 9px 0 25px 20px;
+    margin-top: 35px;
+    border-left: 1px solid #eee;
+    font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, sans-serif !important;
+}
+
+@media screen and (min-width: 480px) and (max-width: 1170px) {
+    .page-toc {
+        width: auto
+    }
+}
+
+@media screen and (max-width: 479px) {
+    .page-toc {
+        display: none
+    }
+}
+
+.page-toc ul {
+    list-style-type: none;
+    margin: 0;
+}
+
+.page-toc ul a {
+    display: block;
+    padding: 3px 0;
+    color: #151515;
+    text-decoration: none;
+    font-weight: bold;
+    line-height: 16px;
+    font-size: 14px;
+}
+
+.page-toc ul a:hover {
+    color: #f00;
+    text-decoration: underline
+}
+
+.page-toc ul li {
+    padding-left: 3px;
+    text-align: left;
+    float: initial
+}
+
+.page-toc ul ul {
+    margin: 0 0 0 10px;
+    list-style-type: square;
+    padding: 0 0 0 9px;
+}
+
+.page-toc ul ul li a {
+    font-size: 90%;
+    font-weight: normal;
+    border-bottom: 0
+}</style></head><body><div class="content markdown-body"><h1 id="-ios-sdk-v1-0-0">广点通行为数据上报iOS SDK接入文档-V1.0.0</h1>
+<h2 id="1-sdk">1.  下载SDK</h2>
+<p>登录<a href="http://de.qq.com">DMP系统</a>（MP广告主登录<a href="https://mp.weixin.qq.com/">MP系统</a> -『人群管理』-『高级拓展』进入DMP），在“数据接入”页面创建App用户行为数据源。行为数据源的类型选择iOS，并填写相应的应用ID，输入数据源名称创建一个数据源。创建好数据源之后，您会看到DMP给您的App数据源分配了两个ID，一个是行为数据源ID（UserActionSetID），另一个是AppSecretKey。</p>
+<p>然后点击获取SDK，下载iOS SDK的压缩包，压缩包中的<code>GDTActionSDK-1.0.0.framework</code>文件为您的App需要嵌入的SDK，压缩包中的<code>GDTActionSDKSample</code>是我们提供的SDK接入示例工程。注意，本文档提到的<code>GDTActionSDK.framework</code>指的是您实际下载的SDK版本。</p>
+<h2 id="2-sdk">2. 导入SDK</h2>
+<p>解压下载下来的SDK，可以看到<code>GDTActionSDK.framework</code>，Sample示例程序，接入文档。这里以Sample示例程序导入SDK为例：</p>
+<ol>
+<li>将<code>GDTActionSDK.framework</code>Move到示例程序项目lib文件夹内。(在GDTActionSDKSample目录下运行“mv ../GDTActionSDK-1.0.*-simulator.framework GDTActionSDKSample/lib/GDTActionSDK.framework”)</li>
+<li>在具体代码引入的地方将对应接口import进来。目前SDK最低支持系统版本号为iOS 7.0</li>
+</ol>
+<pre><code class="lang-objc"><span class="hljs-meta">#import <span class="hljs-meta-string">&lt;GDTActionSDK/GDTAction.h&gt;</span></span>
+</code></pre>
+<blockquote>
+<p>注：若在运行项目时出现framework image not found错误，可以在Build Phases -&gt; copy Files中将Framework 添加到待拷贝文件中来解决。</p>
+</blockquote>
+<h2 id="3-sdk-">3. SDK初始化</h2>
+<p>找到您的App的入口（AppDelegate.m）并导入头文件，并在didFinishLaunchingWithOptions方法中调用[GDTAction init] 方法，这样就完成了初始化SDK的工作。SDK初始化完成之后，可以在在applicationDidBecomeActive方法中调用logAction:StartApp上报应用启动行为。</p>
+<pre><code class="lang-objc">- (<span class="hljs-built_in">BOOL</span>)application:(<span class="hljs-built_in">UIApplication</span> *)application didFinishLaunchingWithOptions:(<span class="hljs-built_in">NSDictionary</span> *)launchOptions {
+    <span class="hljs-comment">/*
+     * 在接入广点通行为数据SDK时，请在App启动的时候调用初始化方法
+     * 初始化方法调用时请传入数据源UserActionSetId和在后台看到的secretKey密钥串
+     */</span>
+    [GDTAction init:<span class="hljs-string">@"yourActionSetId"</span> secretKey:<span class="hljs-string">@"yourSecretKey"</span>];
+
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">YES</span>;
+}
+
+- (<span class="hljs-keyword">void</span>)applicationDidBecomeActive:(<span class="hljs-built_in">UIApplication</span> *)application {
+
+    <span class="hljs-comment">/*
+     * 在应用启动的时候请上报GDTSDKActionNameStartApp行为
+     * SDK内部会判断此次启动行为是否为激活行为并上报，开发者无需另外作判断逻辑
+     */</span>
+    [GDTAction logAction:GDTSDKActionNameStartApp actionParam:@{<span class="hljs-string">@"value"</span>:@(<span class="hljs-number">123</span>)}];
+}
+
+</code></pre>
+<h2 id="4-">4. 上报行为数据</h2>
+<p>在App内发生转化行为时，可以调用下面的代码上报行为数据。</p>
+<pre><code class="lang-objc"><span class="hljs-comment">// 用户发生购物行为时，可以用[GDTAction logAction]上报用户的这次行为，并将价格（整型值，单位分）等行为参数一起带上</span>
+[GDTAction logAction:GDTSDKActionNameCompleteOrder actionParam:@{<span class="hljs-string">@"product_id"</span>:@(<span class="hljs-number">12345</span>),<span class="hljs-string">@"value"</span>:@(<span class="hljs-number">12800</span>)}];
+</code></pre>
+<p>关于行为类型名字（actionName）和行为参数（actionParam）的类型，在SDK的主要API介绍这一章节有详细说明。</p>
+<h2 id="5-sdk-api">5. SDK主要API</h2>
+<ul>
+<li><strong>GDTAction</strong></li>
+</ul>
+<table><tr>
+<th style="text-align:left">方法名</th>
+<th style="text-align:left">功能</th>
+</tr>
+<tr>
+<td style="text-align:left">+(void)init:(NSString <em>)actionSetId secretKey:(NSString </em>)secKey</td>
+<td style="text-align:left">初始化方法，必须在App的入口调用一次  <br>  @param actionSetId : 您在DMP数据接入获得的行为数据源ID  <br>  @param secretKey : 您在DMP数据接入获得的行为数据源SecretKey <br> </td>
+</tr>
+<tr>
+<td style="text-align:left">+(void)logAction:(NSString <em>)actionName actionParam:(NSDictionary </em>)actionParam</td>
+<td style="text-align:left">行为上报接口，支持上报行为参数  <br>  @param actionName : 行为类型名，系统支持的actionName见下  <br>  @param actionParam : 行为参数，行为参数是&quot;Key-Value&quot;类型，Key只可以为String类型，<strong>只能包含字母、数字和下划线，必须以字母开头，长度不能超过255</strong>；Value可以是String/Number/Boolean/JSONArray其中一种，当Value为JSONArray时，它的元素只能为String/Number/Boolean中的一种，且所有元素必须是同一个类型  <br> </td>
+</tr>
+</table><ul>
+<li><strong>ActionName</strong></li>
+</ul>
+<p>当前版本我们支持如下的标准行为类型，除了这些行为以外，如果您需要上报自定义行为，可以给<code>logAction:(NSString *)actionName</code>方法的<code>actionName</code>参数传入自定义的字符串。</p>
+<table><tr>
+<th style="text-align:center">常量名</th>
+<th style="text-align:center">值</th>
+<th style="text-align:center">含义</th>
+</tr>
+<tr>
+<td style="text-align:center">GDTSDKActionNameStartApp</td>
+<td style="text-align:center">START_APP</td>
+<td style="text-align:center">应用启动</td>
+</tr>
+<tr>
+<td style="text-align:center">GDTSDKActionNamePageView</td>
+<td style="text-align:center">PAGE_VIEW</td>
+<td style="text-align:center">页面浏览</td>
+</tr>
+<tr>
+<td style="text-align:center">GDTSDKActionNameRegister</td>
+<td style="text-align:center">REGISTER</td>
+<td style="text-align:center">注册</td>
+</tr>
+<tr>
+<td style="text-align:center">GDTSDKActionNameViewContent</td>
+<td style="text-align:center">VIEW_CONTENT</td>
+<td style="text-align:center">内容浏览</td>
+</tr>
+<tr>
+<td style="text-align:center">GDTSDKActionNameConsult</td>
+<td style="text-align:center">CONSULT</td>
+<td style="text-align:center">咨询</td>
+</tr>
+<tr>
+<td style="text-align:center">GDTSDKActionNameAddToCart</td>
+<td style="text-align:center">ADD_TO_CART</td>
+<td style="text-align:center">加入购物车</td>
+</tr>
+<tr>
+<td style="text-align:center">GDTSDKActionNamePurchase</td>
+<td style="text-align:center">PURCHASE</td>
+<td style="text-align:center">购买</td>
+</tr>
+<tr>
+<td style="text-align:center">GDTSDKActionNameSearch</td>
+<td style="text-align:center">SEARCH</td>
+<td style="text-align:center">搜索</td>
+</tr>
+<tr>
+<td style="text-align:center">GDTSDKActionNameAddToWishList</td>
+<td style="text-align:center">ADD_TO_WISHLIST</td>
+<td style="text-align:center">加入收藏</td>
+</tr>
+<tr>
+<td style="text-align:center">GDTSDKActionNameInitiateCheckOut</td>
+<td style="text-align:center">INITIATE_CHECKOUT</td>
+<td style="text-align:center">开始结算</td>
+</tr>
+<tr>
+<td style="text-align:center">GDTSDKActionNameCompleteOrder</td>
+<td style="text-align:center">COMPLETE_ORDER</td>
+<td style="text-align:center">下单</td>
+</tr>
+<tr>
+<td style="text-align:center">GDTSDKActionNameDownloadApp</td>
+<td style="text-align:center">DOWNLOAD_APP</td>
+<td style="text-align:center">下载应用</td>
+</tr>
+<tr>
+<td style="text-align:center">GDTSDKActionNameRate</td>
+<td style="text-align:center">RATE</td>
+<td style="text-align:center">评分</td>
+</tr>
+<tr>
+<td style="text-align:center">GDTSDKActionNameReservation</td>
+<td style="text-align:center">RESERVATION</td>
+<td style="text-align:center">预订</td>
+</tr>
+<tr>
+<td style="text-align:center">GDTSDKActionNameShare</td>
+<td style="text-align:center">SHARE</td>
+<td style="text-align:center">分享</td>
+</tr>
+<tr>
+<td style="text-align:center">GDTSDKActionNameApply</td>
+<td style="text-align:center">APPLY</td>
+<td style="text-align:center">申请（用于金融广告主的申请贷款、开卡等）</td>
+</tr>
+<tr>
+<td style="text-align:center">GDTSDKActionNameClaimOffer</td>
+<td style="text-align:center">CLAIM_OFFER</td>
+<td style="text-align:center">领取卡券</td>
+</tr>
+<tr>
+<td style="text-align:center">GDTSDKActionNameNavigate</td>
+<td style="text-align:center">NAVIGATE</td>
+<td style="text-align:center">导航</td>
+</tr>
+<tr>
+<td style="text-align:center">GDTSDKActionNameProductRecommend</td>
+<td style="text-align:center">PRODUCT_RECOMMEND</td>
+<td style="text-align:center">商品推荐</td>
+</tr>
+</table><ul>
+<li><p><strong>ActionParam</strong></p>
+<ol>
+<li>广告主在调用上报StartApp行为时，SDK会自主判断此次行为是否为激活行为。若广告主需要自主控制上报激活启动行为时，可以在<code>ActionParam</code>中设置<code>GDTSDKActionParamKeyAudienceType</code>的Key，Value为<code>GDTActionParamAudienceType_UsedAudience</code>。当带有该标示的启动行为上报时我们会默认此次行为为老客户的应用启动行为。</li>
+<li>广告主在上报时需要做自定义去重时可以在<code>ActionParam</code>中设置<code>GDTSDKActionParamKeyOuterActionId</code>的Key，value为任意自定义如订单号的字符串作为自定义去重id，系统会根据该id进行去重。</li>
+<li>当用户需要指定上报用户次日留存指标时，可以在上报StartApp时，加上length_of_stay的参数，值为1，系统会指定该次上报为留存数据。</li>
+</ol>
+</li>
+</ul>
+<h2 id="6-">6. 备注</h2>
+<p>压缩包中GDTActionSDK.framework包含两个文件，分别为适配模拟器架构的Framework和真机架构的Framework，在提交AppStore时请勿使用模拟器架构的Framework。使用方请酌情使用。</p>
+</div></body></html>
