@@ -15,7 +15,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        /*
+         * 在接入广点通行为数据SDK时，请在App启动的时候调用初始化方法
+         * 初始化方法调用时请传入数据源UserActionSetId和在后台看到的secretKey密钥串
+         */
+        GDTAction.init("1106262171", secretKey: "9be5526f281752a4fda1345fee7cbc56")
         return true
     }
 
@@ -34,7 +38,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        /*
+         * 在应用启动的时候请上报GDTSDKActionNameStartApp行为
+         * SDK内部会判断此次启动行为是否为激活行为并上报，开发者无需另外作判断逻辑
+         */
+        GDTAction.logAction(GDTSDKActionNameStartApp, actionParam: ["value" : 123])
     }
 
     func applicationWillTerminate(_ application: UIApplication) {

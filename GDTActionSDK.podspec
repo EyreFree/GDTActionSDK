@@ -1,10 +1,10 @@
 Pod::Spec.new do |s|
   s.name             = 'GDTActionSDK'
   s.version          = '1.0.3'
-  s.summary          = 'A short description of GDTActionSDK.'
+  s.summary          = 'GDTActionSDK CocoaPods 封装'
 
   s.description      = <<-DESC
-Add long description of the pod here.
+广点通 DMP 行为数据上报 iOS 端 SDK。
                        DESC
 
   s.homepage         = 'https://github.com/EyreFree/GDTActionSDK'
@@ -18,8 +18,4 @@ Add long description of the pod here.
 
   s.source_files = 'GDTActionSDK/Classes/**/*'
   s.vendored_frameworks = 'GDTActionSDK/Frameworks/GDTActionSDK.framework'
-  
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
 end
