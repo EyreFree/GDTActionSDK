@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'GDTActionSDK'
-  s.version          = '1.0.3'
+  s.version          = '1.0.3.1'
   s.summary          = 'GDTActionSDK CocoaPods 封装'
 
   s.description      = <<-DESC
